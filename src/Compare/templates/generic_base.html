@@ -11,19 +11,25 @@
 
 	<div id="header" class="header">
 	{% block header %}
-	Header
     {% endblock header %}
 	</div>
+	
+	<nav>
+		<ul>
+			<li><a href="index.html">Home</a></li>
+			<li><a href="/about/">About</a></li>
+			{% block navigation_options %}
+			{% endblock navigation_options %}
+		</ul>
+	</nav>
 
 	<div id="content" class="content">
 	{% block content %}
-	Content
     {% endblock content %}
 	</div>
 	
 	<div id="footer" class="footer">
 	{% block footer %}
-	Footer
     {% endblock footer %}
     </div>
 
