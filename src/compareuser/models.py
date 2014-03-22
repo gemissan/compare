@@ -15,10 +15,10 @@ class CompareUser(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
-    repository = models.ForeignKey("comparelist.CompareList", null=True)
+    repository = models.ForeignKey("comparelist.CompareList", null=True, related_name="repository_owner")
     friends = models.ManyToManyField(settings.AUTH_USER_MODEL)
-    favourite_lists = models.ManyToManyField("comparelist.CompareList")
-    favourite_views = models.ManyToManyField("comparelist.CompareView")
+    favourite_lists = models.ManyToManyField("comparelist.CompareList", related_name="favourited_users")
+    favourite_views = models.ManyToManyField("comparelist.CompareView", related_name="favourited_users")
     allowed_object_types = models.ManyToManyField("compareobject.CompareObjectType")
     
     USERNAME_FIELD = "username"
