@@ -9,8 +9,8 @@ class CompareUser(AbstractBaseUser):
     
     username = models.CharField(max_length=20, unique=True)
     email = models.CharField(max_length=100, unique=True)
-    first_name = models.CharField(max_length=50, blank=True, null=True)
-    last_name = models.CharField(max_length=100, blank=True, null=True)
+    first_name = models.CharField(max_length=50, blank=True, null=True, default=None)
+    last_name = models.CharField(max_length=100, blank=True, null=True, default=None)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -28,7 +28,10 @@ class CompareUser(AbstractBaseUser):
     
     def get_full_name(self):
         
-        return "%s %s" % (self.first_name, self.last_name,)
+        if self.first_name or self.last_name:
+            return "%s %s" % (self.first_name, self.last_name,)
+        else:
+            return self.get_short_name()
     
     def get_short_name(self):
         

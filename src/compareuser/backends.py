@@ -14,8 +14,6 @@ class DummyAuthenticationBackend(object):
         """
         """
         
-        logger.debug("Authenticate %s" % (name,))
-        
         kwargs = {User.USERNAME_FIELD: name}
         
         authenticated_object = None
@@ -30,13 +28,11 @@ class DummyAuthenticationBackend(object):
         
         return authenticated_object
     
-    def get_user(self, username):
+    def get_user(self, user_id):
         """
         """
-        
-        logger.debug("get_user %s" % (username,))
         
         try:
-            return User.objects.get(pk=username)
+            return User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None

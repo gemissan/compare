@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}Compare{% endblock title %}
+{% block title %}Login{% endblock title %}
 
 {% block header %}
   {{ block.super }}
 {% endblock header %}
 
 {% block main_content %}
+<form method="post" action="">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Login"/>
+</form>
 {% endblock main_content %}
 
 {% block footer %}{{ block.super }}{% endblock footer %}
