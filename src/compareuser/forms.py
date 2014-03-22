@@ -10,3 +10,14 @@ class LoginForm(forms.Form):
     """
 
     name = forms.CharField(max_length=50)
+    
+    
+class CreateUserForm(forms.ModelForm):
+    """
+    """
+    
+    class Meta:
+        model = User
+        fields = ["username", "email", "first_name", "last_name", "password"]
+    
+    confirm_password = forms.PasswordInput()

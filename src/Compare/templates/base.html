@@ -2,14 +2,19 @@
 
 {% block title %}{% endblock title %}
 
-{% block header %}
+{% block header %}{{ block.super }}{% endblock header %}
+
+{% block navigation_options %}
 	{% if user and user.is_authenticated %}
-		Hello {{ user.full_name }}
-		<a href="{% url 'logout_view' %}">Log out</a>
+		<li>
+			{{ user.get_full_name }}
+			<a href="{% url 'logout_user_view' %}">Log out</a>
+		</li>
 	{% else %}
-		<a href="{% url 'login_view' %}">Log in</a>
+		<li><a href="{% url 'login_user_view' %}">Log in</a></li>
+		<li><a href="{% url 'create_user_view' %}">Create account</a></li>
 	{% endif %}
-{% endblock header %}
+{% endblock navigation_options %}
 
 {% block content %}
 	<div id="main-menu" class="main-menu">

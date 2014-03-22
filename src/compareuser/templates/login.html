@@ -9,7 +9,9 @@
 {% block main_content %}
 <form method="post" action="">{% csrf_token %}
     {{ form.as_p }}
+    {% block submit_button %}
     <input type="submit" value="Login"/>
+    {% endblock submit_button %}
 </form>
 {% endblock main_content %}
 
