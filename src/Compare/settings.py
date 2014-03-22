@@ -137,6 +137,7 @@ INSTALLED_APPS = (
     'compareobject',
     'comparelist',
     'compareutils',
+    'comparemain'
 )
 
 LOGGING_ROOT = '/var/log/django/compare'

@@ -3,36 +3,23 @@
 {% block title %}Compare{% endblock title %}
 
 {% block header %}
-{% if user and iser.is_authenticated %}
-	Hello {{ user.full_name }}
-{% else %}
-	<a href="{% url 'login_user_view' %}">login</a>
-{% endif %}
+	{% if user and iser.is_authenticated %}
+		Hello {{ user.full_name }}
+	{% else %}
+		User not logged in
+	{% endif %}
 {% endblock header %}
 
 {% block content %}
-	<div id="main-menu" class="block-div main-menu">
-		{% if user %}
-			{% if lists %}
-	        	{% for list in lists %}
-	         		<p>{{ list.name }}</p>
-	       		{% endfor %}
-	   		{% else %}
-	       		Brak list
-	   		{% endif %}
-	   		<a href="{% url 'create_list_view' %}">New list</a>
-	   	{% else %}
-	   		Zaloguj się
-	   	{% endif %}
+	<div id="main-menu" class="main-menu">
 	</div>
-	<div id="main-content" class="block-div main-content">
+	<div id="main-content" class="main-content">
 	   {% block main_content %}
 	   {% endblock main_content %}
 	</div>
-	<div id="context-menu" class="block-div context-menu">
-	   Context Menu
+	<div id="context-menu" class="context-menu">
 	</div>
 	<div class="block-clear"></div>
 {% endblock content %}
 
-{% block footer %}Repozytorium{% endblock footer %}
+{% block footer %}{{ block.super }}{% endblock footer %}
