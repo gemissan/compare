@@ -1,0 +1,38 @@
+{% extends "generic_base.html" %}
+
+{% block title %}Compare{% endblock title %}
+
+{% block header %}
+{% if user and iser.is_authenticated %}
+	Hello {{ user.full_name }}
+{% else %}
+	<a href="{% url 'login_user_view' %}">login</a>
+{% endif %}
+{% endblock header %}
+
+{% block content %}
+	<div id="main-menu" class="block-div main-menu">
+		{% if user %}
+			{% if lists %}
+	        	{% for list in lists %}
+	         		<p>{{ list.name }}</p>
+	       		{% endfor %}
+	   		{% else %}
+	       		Brak list
+	   		{% endif %}
+	   		<a href="{% url 'create_list_view' %}">New list</a>
+	   	{% else %}
+	   		Zaloguj się
+	   	{% endif %}
+	</div>
+	<div id="main-content" class="block-div main-content">
+	   {% block main_content %}
+	   {% endblock main_content %}
+	</div>
+	<div id="context-menu" class="block-div context-menu">
+	   Context Menu
+	</div>
+	<div class="block-clear"></div>
+{% endblock content %}
+
+{% block footer %}Repozytorium{% endblock footer %}

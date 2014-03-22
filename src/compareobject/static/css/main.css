@@ -1,0 +1,41 @@
+@CHARSET "UTF-8";
+
+.header {
+	background-color: yellow;
+}
+
+.content {
+	background-color: grey;
+}
+
+.footer {
+	background-color: blue;
+}
+
+.block-div {
+	display: inline-block;
+}
+
+.block-clear {
+	clear: both;
+}
+
+.main-menu {
+	width: 100px;
+	float: left;
+	
+	background-color: orange;
+}
+
+.main-content {
+	width: auto;
+	
+	background-color: white;
+}
+
+.context-menu {
+	width: 100px;
+	float: right;
+	
+	background-color: purple;
+}
