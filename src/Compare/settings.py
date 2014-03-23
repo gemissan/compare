@@ -1,3 +1,4 @@
+import sys
 import os
 from os import path
 
@@ -164,12 +165,15 @@ LOGGING = {
     },
     'formatters': {
         'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+            'format': '%(asctime)s %(levelname)s %(module)s %(process)d %(thread)d %(message)s'
         },
         'path': {
             'format': '%(levelname)s %(pathname)s:%(lineno)s\n\t%(message)s'
         },
         'simple': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+        'minimal': {
             'format': '%(levelname)s %(message)s'
         },
     },
@@ -177,7 +181,7 @@ LOGGING = {
         'console': {
             'level': 'NOTSET',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+            'formatter': 'minimal'
         },
         'root_rotating_file': {
             'level': 'NOTSET',
@@ -202,6 +206,14 @@ LOGGING = {
             'filename': path.join(LOGGING_ROOT, 'request.log'),
             'maxBytes': 5 * 1024 * 1024,
             'backupCount': 5,
+            'formatter': 'simple'
+        },
+        'signals_rotating_file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': path.join(LOGGING_ROOT, 'signals.log'),
+            'maxBytes': 1024 * 1024,
+            'backupCount': 1,
             'formatter': 'simple'
         },
         'utils_rotating_file': {
@@ -237,6 +249,11 @@ LOGGING = {
         },
         'django.request': {
             'handlers': ['request_rotating_file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'signals': {
+            'handlers': ['signals_rotating_file'],
             'level': 'DEBUG',
             'propagate': True,
         },
