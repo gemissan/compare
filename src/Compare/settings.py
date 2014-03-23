@@ -137,6 +137,7 @@ INSTALLED_APPS = (
     'compareobject',
     'comparelist',
     'compareutils',
+    'compareyoutube',
     'comparemain'
 )
 
