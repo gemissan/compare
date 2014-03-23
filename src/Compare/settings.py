@@ -1,4 +1,3 @@
-import sys
 import os
 from os import path
 
@@ -216,24 +215,6 @@ LOGGING = {
             'backupCount': 1,
             'formatter': 'simple'
         },
-        'utils_rotating_file': {
-            'level': 'NOTSET',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': path.join(LOGGING_ROOT, 'utils.log'),
-            'maxBytes': 1024 * 1024,
-            'backupCount': 1,
-            'formatter': 'path',
-            'filters': ['require_debug_true'],
-        },
-        'users_rotating_file': {
-            'level': 'NOTSET',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': path.join(LOGGING_ROOT, 'users.log'),
-            'maxBytes': 1024 * 1024,
-            'backupCount': 1,
-            'formatter': 'path',
-            'filters': ['require_debug_true'],
-        },
         'mail_admins': {
             'level': 'CRITICAL',
             'filters': ['require_debug_false'],
@@ -257,15 +238,25 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'compareutils': {
-            'handlers': ['utils_rotating_file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'compareuser': {
-            'handlers': ['users_rotating_file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        }
     }
 }
+
+log_modules = ('compareutils', 'compareuser', 'comparelist')
+
+for log_module in log_modules:
+    handler = log_module + '_rotating_file_handler'
+    filename = path.join(LOGGING_ROOT, log_module + '.log')
+    LOGGING['handlers'][handler] = {
+        'level': 'NOTSET',
+        'class': 'logging.handlers.RotatingFileHandler',
+        'filename': filename,
+        'maxBytes': 1024 * 1024,
+        'backupCount': 1,
+        'formatter': 'path',
+        'filters': ['require_debug_true']
+    }
+    LOGGING['loggers'][log_module] = {
+        'handlers': [handler],
+        'level': 'DEBUG',
+        'propagate': True
+    }
