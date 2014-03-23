@@ -1,12 +1,15 @@
 import logging
 
-from django.shortcuts import render, redirect
+from django.contrib.auth import get_user_model
+from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.contrib import auth
 
 from compareuser.forms import LoginForm, CreateUserForm
 
 
-logger = logging.getLogger(__name__) 
+logger = logging.getLogger(__name__)
+
+User = get_user_model()
 
 
 def login(request):
@@ -50,6 +53,14 @@ def create(request):
         form = CreateUserForm()
     
     return render(request, "create.html", {"form": form})
+
+
+def show(request, user_id):
+    
+    shown_user = get_object_or_404(User, pk=user_id)
+    user = getattr(request, "user", None)
+    
+    return render_to_response("show.html", {"user": user, "shown_user": shown_user})
 
 
 def login_user(request, user):

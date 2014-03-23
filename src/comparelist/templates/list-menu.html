@@ -1,0 +1,6 @@
+<ul class="list-menu">
+{% for list in user.owned_lists.all %}
+	<li>{{ list.name }}</li>
+{% endfor %}
+Add new list
+<ul>
