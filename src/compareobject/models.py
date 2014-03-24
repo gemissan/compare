@@ -21,7 +21,7 @@ class CompareCategory(models.Model):
     default_category_type = None
     
     name = models.CharField(max_length=50)
-    category_type = models.CharField(max_length=50, null=True, default=default_category_type)
+    category_type = models.CharField(max_length=50, null=True, db_index=True, default=default_category_type)
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
     created = models.DateTimeField(auto_now_add=True)
     
