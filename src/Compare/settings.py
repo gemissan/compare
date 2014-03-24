@@ -170,7 +170,7 @@ LOGGING = {
             'format': '%(levelname)s %(pathname)s:%(lineno)s\n\t%(message)s'
         },
         'simple': {
-            'format': '%(asctime)s %(levelname)s %(message)s'
+            'format': '%(asctime)s %(levelname)s %(name)s %(message)s'
         },
         'minimal': {
             'format': '%(levelname)s %(message)s'
@@ -231,12 +231,12 @@ LOGGING = {
         'django.request': {
             'handlers': ['request_rotating_file'],
             'level': 'DEBUG',
-            'propagate': True,
+            'propagate': False,
         },
         'signals': {
             'handlers': ['signals_rotating_file'],
             'level': 'DEBUG',
-            'propagate': True,
+            'propagate': False,
         },
     }
 }

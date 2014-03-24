@@ -2,13 +2,18 @@ from django.db import models
 from django.db.models import Q
 from django.conf import settings
 
+from compareobject.managers import CompareObjectTypeManager
+
 
 class CompareObjectType(models.Model):
     """
     """
     
     name = models.CharField(max_length=30, unique=True)
-    features = models.ManyToManyField("comparelist.CompareFeature")
+    features = models.ManyToManyField("comparelist.CompareFeature", null=True)
+    default = models.BooleanField(default=False)
+    
+    objects = CompareObjectTypeManager()
     
     def __unicode__(self):
         return self.name
