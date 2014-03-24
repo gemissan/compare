@@ -68,3 +68,9 @@ class Comparision(models.Model):
     class Meta:
         unique_together = ("comparer", "compare_list", "compare_feature", "compare_object_better", "compare_object_worse")
     
+    
+def compare_category_set_category_type(sender, instance, raw, **kwargs):
+    
+    if not raw:
+        instance.category_type = sender.default_category_type
+        

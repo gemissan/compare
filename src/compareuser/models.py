@@ -1,6 +1,9 @@
 from django.db import models
+from django.db.models.signals import pre_save
 from django.contrib.auth.models import AbstractBaseUser, UserManager
 from django.conf import settings
+
+from comparelist.models import CompareList
 
 
 class CompareUser(AbstractBaseUser):
@@ -15,7 +18,7 @@ class CompareUser(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
-    repository = models.ForeignKey("comparelist.CompareList", null=True, related_name="repository_owner")
+    repository = models.ForeignKey("comparelist.CompareList", related_name="repository_owner")
     friends = models.ManyToManyField(settings.AUTH_USER_MODEL)
     favourite_lists = models.ManyToManyField("comparelist.CompareList", related_name="favourited_users")
     favourite_views = models.ManyToManyField("comparelist.CompareView", related_name="favourited_users")
@@ -47,3 +50,13 @@ class CompareUser(AbstractBaseUser):
     
     def __unicode__(self):
         return "User[name=%s]" % getattr(self, self.USERNAME_FIELD, "Empty")
+    
+
+def compare_user_create_repository(sender, instance, raw, **kwargs):
+    
+    if not raw and instance.repository is not None:
+        repository = CompareList.objects.create(name="repository")
+        instance.repository = repository
+        
+        
+pre_save.connect(compare_user_create_repository, sender=CompareUser)

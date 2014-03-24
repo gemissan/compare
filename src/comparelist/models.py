@@ -22,12 +22,12 @@ class CompareList(models.Model):
     """
     """
     
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="owned_lists")
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name="owned_lists")
     name = models.CharField(max_length=255)
-    object_type = models.ForeignKey("compareobject.CompareObjectType", related_name="compare_lists")
-    categories = models.ManyToManyField("compareobject.CompareCategory", related_name="compare_lists")
-    features = models.ManyToManyField("comparelist.CompareFeature", related_name="compare_list")
-    list_objects = models.ManyToManyField("compareobject.CompareObject", related_name="compare_lists")
+    object_type = models.ForeignKey("compareobject.CompareObjectType", null=True, default=None, related_name="compare_lists")
+    categories = models.ManyToManyField("compareobject.CompareCategory", null=True, default=None, related_name="compare_lists")
+    features = models.ManyToManyField("comparelist.CompareFeature", null=True, default=None, related_name="compare_list")
+    list_objects = models.ManyToManyField("compareobject.CompareObject", null=True, default=None, related_name="compare_lists")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True, auto_now_add=True)
     is_private = models.BooleanField(default=True)
@@ -70,6 +70,10 @@ class CompareList(models.Model):
         worse_comparisions = self.get_worse_comparisions(compare_object)
         
         return better_comparisions | worse_comparisions
+    
+    def is_repository(self):
+        
+        return self.owner is None and self.repository_owner is not None
     
     def __unicode__(self):
         return self.name

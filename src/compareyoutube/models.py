@@ -1,7 +1,6 @@
 from django.db.models.signals import pre_save
 
-from compareobject.models import CompareCategory, CompareObject
-from compareobject.signals import compare_category_set_category_type
+from compareobject.models import CompareCategory, CompareObject, compare_category_set_category_type
 
 
 class YoutubeArtistCategory(CompareCategory):
