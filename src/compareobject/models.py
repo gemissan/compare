@@ -14,6 +14,12 @@ class CompareObjectType(models.Model):
     name = models.CharField(max_length=30, unique=True)
     features = models.ManyToManyField("comparelist.CompareFeature", null=True)
     default = models.BooleanField(default=False)
+    ordering = models.PositiveSmallIntegerField(db_index=True, default=0)
+    index_view = models.CharField(max_length=50, null=True, default=None)
+    list_view = models.CharField(max_length=50, null=True, default=None)
+    
+    class Meta:
+        ordering = ['ordering']
     
     objects = CompareObjectTypeManager()
     

@@ -21,9 +21,9 @@ def login(request):
             user = auth.authenticate(name=username)
             if user:
                 if user.is_active:
-                    login_user(request, user)
-                    
-                    return redirect("index_view")
+                    if login_user(request, user):
+                        next = request.GET.get('next', "index_view")
+                        return redirect(next)
             else:
                 logger.warning("Unsuccessfull login attempt for username %s", username)
     else:
@@ -45,8 +45,9 @@ def create(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            user = auth.authenticate(name=form.instance.username)
             
-            login_user(request, form.instance)
+            login_user(request, user)
             
             return redirect("index_view")
     else:

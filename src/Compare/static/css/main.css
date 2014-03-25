@@ -7,7 +7,7 @@ body
 	padding: 0;
 }
 
-.header, .content, .footer
+.header, .content, .footer, .nav-bar-container
 {
 	display: block;
 	overflow: hidden;
@@ -21,8 +21,19 @@ body
 	position:absolute;
 	left: 0;
 	top: 0;
+	height: 5em;
+}
+
+#nav-bar-container
+{
 	height: 3em;
 	background-color: #8A2BE2;
+}
+
+#types-nav-bar-containder
+{
+	height: 2em;
+	background-color: brown;
 }
 
 #content-wrapper

@@ -53,7 +53,7 @@ class CompareUser(AbstractBaseUser):
     
     def get_repository(self, object_type):
         
-        if object_type in self.allowed_object_types:
+        if object_type in self.allowed_object_types.all():
             try:
                 return self.repositories.get(object_type=object_type)
             except:

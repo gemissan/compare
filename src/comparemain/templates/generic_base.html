@@ -12,13 +12,19 @@
 	<div id="header" class="header">
 	{% block header %}
     {% endblock header %}
-    	<nav class="nav-bar">
+    	<nav id="nav-bar-container" class="nav-bar-container">
 			<ul class="nav-list">
 				<li><a href="{% url 'index_view' %}">Compare</a></li>
 				<li><a href="{% url 'about_view' %}">About</a></li>
 				{% block navigation_options %}
 				{% endblock navigation_options %}
 			</ul>
+		</nav>
+		<nav id="types-nav-bar-containder" class="nav-bar-container">
+		<ul class="nav-list">
+		{% block types_navigation_options %}
+		{% endblock types_navigation_options %}
+		</ul>
 		</nav>
 	</div>
 

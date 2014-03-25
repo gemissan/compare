@@ -1,6 +1,14 @@
 <ul class="list-menu">
-{% for list in user.owned_lists.all %}
-	<li>{{ list.name }}</li>
-{% endfor %}
-Add new list
+{% if user.favourite_lists.count %}
+	<li>
+		<div>
+		<p>Favourite</p>
+		<ul>
+		{% for list in user.favourite_lists.all %}
+			<li><a{% if list.object_type.list_view %} href="{% url list.object_type.list_view user.username list.name %}"{% endif %}>{{ list.name }}</a></li>
+		{% endfor %}
+		</ul>
+		</div>
+	</li>
+{% endif %}
 <ul>
