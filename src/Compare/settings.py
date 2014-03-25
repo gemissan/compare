@@ -30,6 +30,8 @@ AUTH_USER_MODEL = 'compareuser.CompareUser'
 AUTHENTICATION_BACKENDS = ('compareuser.backends.DummyAuthenticationBackend',
                            'django.contrib.auth.backends.ModelBackend')
 
+LOGIN_URL = "login_user_view"
+
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
