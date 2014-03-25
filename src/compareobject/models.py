@@ -1,3 +1,5 @@
+import logging
+
 from django.db import models
 from django.db.models import Q
 from django.conf import settings
@@ -72,10 +74,17 @@ class Comparision(models.Model):
     
     class Meta:
         unique_together = ("comparer", "compare_list", "compare_feature", "compare_object_better", "compare_object_worse")
-    
+
+
+signals_logger = logging.getLogger("signals")
+
+signals_logger.info("Logging signals from %s", __name__)
+
     
 def compare_category_set_category_type(sender, instance, raw, **kwargs):
     
     if not raw:
-        instance.category_type = sender.default_category_type
+        default_category_type = instance.default_category_type
+        instance.category_type = default_category_type
+        signals_logger.debug("Set category type %s for %s", default_category_type, instance)
         

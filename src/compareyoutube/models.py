@@ -14,6 +14,6 @@ class YoutubeObject(CompareObject):
     def artists(self):
         
         return self.categories.filter(category_type=YoutubeArtistCategory.default_category_type)
-    
+
     
 pre_save.connect(compare_category_set_category_type, sender=YoutubeArtistCategory)

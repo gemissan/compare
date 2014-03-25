@@ -50,7 +50,7 @@ class CompareUser(AbstractBaseUser):
         return True
     
     def __unicode__(self):
-        return "User[name=%s]" % getattr(self, self.USERNAME_FIELD, "Empty")
+        return "User[pk=%s, name=%s]" % (self.pk, getattr(self, self.USERNAME_FIELD, None),)
 
 
 signals_logger = logging.getLogger("signals")
@@ -69,8 +69,13 @@ def compare_user_create_repository(sender, instance, raw, **kwargs):
         
         
 def compare_user_set_allowed_objct_types(sender, instance, raw, **kwargs):
+    """
+    Receiver for post_save CompareUser signal.
+    Adds default allowed_compare_objects to user.
+    Works only when user has no allowed_compare_objects.
+    """
     
-    if not raw and instance.date_joined == instance.date_updated:
+    if not raw and not instance.allowed_object_types.all():
         from compareobject.models import CompareObjectType
         allowed_types = CompareObjectType.objects.default_object_types().all()
         instance.allowed_object_types = allowed_types

@@ -54,12 +54,14 @@ class CompareUserTestCase(test.TestCase):
         
     def test_user_doesnt_gain_default_allowed_object_types(self):
         
+        CompareObjectType.objects.create(name="test1", default=True)
+        
         user = CompareUser.objects.create(
             username="test",
             email="test@test.com"
         )
         
-        object_type = CompareObjectType.objects.create(name="test1", default=True)
+        object_type = CompareObjectType.objects.create(name="test2", default=True)
         
         user.username = "test2"
         user.save()
