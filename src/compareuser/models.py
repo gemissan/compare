@@ -1,7 +1,7 @@
 import logging
 
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, m2m_changed
 from django.contrib.auth.models import AbstractBaseUser, UserManager
 from django.conf import settings
 
@@ -51,13 +51,15 @@ class CompareUser(AbstractBaseUser):
         
         return True
     
-    def repository(self, object_type):
+    def get_repository(self, object_type):
         
-        try:
-            return self.repositories.get(object_type=object_type)
-        except Exception:
-            # TODO: Change the exception type
-            return None
+        if object_type in self.allowed_object_types:
+            try:
+                return self.repositories.get(object_type=object_type)
+            except:
+                pass
+            
+        return None
     
     def __unicode__(self):
         return "User[pk=%s, name=%s]" % (self.pk, getattr(self, self.USERNAME_FIELD, None),)
@@ -66,8 +68,29 @@ class CompareUser(AbstractBaseUser):
 signals_logger = logging.getLogger("signals")
 
 signals_logger.info("Logging signals from %s", __name__)
-        
-        
+
+
+def compare_user_create_user_repository(sender, instance, action, reverse, pk_set, **kwargs):
+    
+    if not reverse and action == "post_add":
+        from compareobject.models import CompareObjectType
+        from comparelist.models import CompareList
+        for pk in pk_set:
+            object_type = CompareObjectType.objects.get(pk=pk)
+            if not instance.get_repository(object_type):
+                try:
+                    repository_list = CompareList.objects.get(repository_owner=instance, object_type=object_type)
+                except CompareList.DoesNotExist:
+                    repository_list = CompareList.objects.create(
+                        name="%s_repository" % (object_type.name),
+                        object_type=object_type
+                    )
+                    
+                instance.repositories.add(repository_list)
+                
+                signals_logger.debug("Added '%s' repository for %s", object_type, instance)
+
+
 def compare_user_set_allowed_objct_types(sender, instance, raw, **kwargs):
     """
     Receiver for post_save CompareUser signal.
@@ -77,23 +100,11 @@ def compare_user_set_allowed_objct_types(sender, instance, raw, **kwargs):
     
     if not raw and not instance.allowed_object_types.all():
         from compareobject.models import CompareObjectType
-        from comparelist.models import CompareList
         allowed_types = CompareObjectType.objects.default_object_types().all()
         instance.allowed_object_types = allowed_types
         
         signals_logger.debug("Added allowed types %s for %s", allowed_types, instance)
         
-        for allowed_type in allowed_types:
-            if not instance.repository(allowed_type):
-                repository_list = CompareList.objects.create(
-                    repository_owner = instance,
-                    name = "%s_repository" % (allowed_type.name),
-                    object_type = allowed_type
-                )
-                
-                instance.repositories.add(repository_list)
-                
-                signals_logger.debug("Added repository list %s for %s", repository_list, instance)
         
-        
+m2m_changed.connect(compare_user_create_user_repository, sender=CompareUser.allowed_object_types.through)
 post_save.connect(compare_user_set_allowed_objct_types, sender=CompareUser)

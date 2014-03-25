@@ -29,12 +29,20 @@ class CompareList(models.Model):
     categories = models.ManyToManyField("compareobject.CompareCategory", null=True, default=None, related_name="compare_lists")
     features = models.ManyToManyField("comparelist.CompareFeature", null=True, default=None, related_name="compare_list")
     list_objects = models.ManyToManyField("compareobject.CompareObject", null=True, default=None, related_name="compare_lists")
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, db_index=True)
     modified = models.DateTimeField(auto_now=True, auto_now_add=True)
     private = models.BooleanField(default=True)
     
     class Meta:
-        unique_together = ["owner", "repository_owner", "name"]
+        unique_together = [
+            ["owner", "repository_owner", "name"],
+        ]
+        index_together = [
+            ["owner", "object_type"],
+            ["owner", "private"],
+            ["repository_owner", "object_type"],
+        ]
+        
         
     def get_owner(self):
         
@@ -108,4 +116,4 @@ class CompareView(models.Model):
     def private(self):
         
         return self.is_private and self.compare_list.private
-    
+        
