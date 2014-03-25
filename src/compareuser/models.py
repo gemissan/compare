@@ -1,9 +1,12 @@
 import logging
 
 from django.db import models
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractBaseUser, UserManager
 from django.conf import settings
+
+
+logger = logging.getLogger(__name__)
 
 
 class CompareUser(AbstractBaseUser):
@@ -19,7 +22,6 @@ class CompareUser(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now_add=True, auto_now=True)
-    repository = models.ForeignKey("comparelist.CompareList", related_name="repository_owner")
     friends = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True)
     favourite_lists = models.ManyToManyField("comparelist.CompareList", null=True, related_name="favourited_users")
     favourite_views = models.ManyToManyField("comparelist.CompareView", null=True, related_name="favourited_users")
@@ -49,6 +51,14 @@ class CompareUser(AbstractBaseUser):
         
         return True
     
+    def repository(self, object_type):
+        
+        try:
+            return self.repositories.get(object_type=object_type)
+        except Exception:
+            # TODO: Change the exception type
+            return None
+    
     def __unicode__(self):
         return "User[pk=%s, name=%s]" % (self.pk, getattr(self, self.USERNAME_FIELD, None),)
 
@@ -56,16 +66,6 @@ class CompareUser(AbstractBaseUser):
 signals_logger = logging.getLogger("signals")
 
 signals_logger.info("Logging signals from %s", __name__)
-
-
-def compare_user_create_repository(sender, instance, raw, **kwargs):
-    
-    if not raw and not instance.pk:
-        from comparelist.models import CompareList
-        repository = CompareList.objects.create(name="repository")
-        instance.repository = repository
-        
-        signals_logger.debug("Created repository for %s", instance)
         
         
 def compare_user_set_allowed_objct_types(sender, instance, raw, **kwargs):
@@ -77,11 +77,23 @@ def compare_user_set_allowed_objct_types(sender, instance, raw, **kwargs):
     
     if not raw and not instance.allowed_object_types.all():
         from compareobject.models import CompareObjectType
+        from comparelist.models import CompareList
         allowed_types = CompareObjectType.objects.default_object_types().all()
         instance.allowed_object_types = allowed_types
         
         signals_logger.debug("Added allowed types %s for %s", allowed_types, instance)
         
+        for allowed_type in allowed_types:
+            if not instance.repository(allowed_type):
+                repository_list = CompareList.objects.create(
+                    repository_owner = instance,
+                    name = "%s_repository" % (allowed_type.name),
+                    object_type = allowed_type
+                )
+                
+                instance.repositories.add(repository_list)
+                
+                signals_logger.debug("Added repository list %s for %s", repository_list, instance)
         
-pre_save.connect(compare_user_create_repository, sender=CompareUser)
+        
 post_save.connect(compare_user_set_allowed_objct_types, sender=CompareUser)

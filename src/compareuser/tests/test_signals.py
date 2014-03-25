@@ -5,15 +5,6 @@ from compareobject.models import CompareObjectType
 
 
 class CompareUserTestCase(test.TestCase):
-    
-    def test_new_user_has_repository(self):
-        
-        user = CompareUser.objects.create(
-            username="test",
-            email="test@test.com"
-        )
-        
-        self.assertIsNotNone(user.repository)
         
     def test_new_user_has_default_allowed_object_types(self):
         
@@ -67,4 +58,15 @@ class CompareUserTestCase(test.TestCase):
         user.save()
         
         self.assertNotIn(object_type, user.allowed_object_types.all())
+        
+    def test_new_user_has_repositories(self):
+        
+        CompareObjectType.objects.create(name="test", default=True)
+        
+        user = CompareUser.objects.create(
+            username="test",
+            email="test@test.com"
+        )
+        
+        self.assertEqual(user.repositories.count(), 1)
         

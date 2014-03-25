@@ -22,7 +22,8 @@ class CompareList(models.Model):
     """
     """
     
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name="owned_lists")
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, default=None, related_name="owned_lists")
+    repository_owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, default=None, related_name="repositories")
     name = models.CharField(max_length=255)
     object_type = models.ForeignKey("compareobject.CompareObjectType", null=True, default=None, related_name="compare_lists")
     categories = models.ManyToManyField("compareobject.CompareCategory", null=True, default=None, related_name="compare_lists")
@@ -30,15 +31,26 @@ class CompareList(models.Model):
     list_objects = models.ManyToManyField("compareobject.CompareObject", null=True, default=None, related_name="compare_lists")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True, auto_now_add=True)
-    is_private = models.BooleanField(default=True)
+    private = models.BooleanField(default=True)
     
     class Meta:
-        unique_together = ("owner", "name",)
+        unique_together = ["owner", "repository_owner", "name"]
         
-    @property
-    def private(self):
+    def get_owner(self):
+        
+        return self.owner or self.repository_owner
+        
+    def is_private(self):
         
         return self.is_private
+    
+    def get_features(self):
+        """
+        returns features available for this list.
+        Has object_type default features and custom features.
+        """
+        
+        return self.object_type.features & self.features
     
     def get_better_objects(self, compare_object):
         """
@@ -73,7 +85,7 @@ class CompareList(models.Model):
     
     def is_repository(self):
         
-        return self.owner is None and self.repository_owner is not None
+        return self.repository_owner is not None
     
     def __unicode__(self):
         return self.name
