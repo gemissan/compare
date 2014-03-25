@@ -22,13 +22,13 @@ class CompareList(models.Model):
     """
     """
     
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, default=None, related_name="owned_lists")
-    repository_owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, default=None, related_name="repositories")
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, default=None, related_name="owned_lists")
+    repository_owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, default=None, related_name="repositories")
     name = models.CharField(max_length=255)
-    object_type = models.ForeignKey("compareobject.CompareObjectType", null=True, default=None, related_name="compare_lists")
-    categories = models.ManyToManyField("compareobject.CompareCategory", null=True, default=None, related_name="compare_lists")
-    features = models.ManyToManyField("comparelist.CompareFeature", null=True, default=None, related_name="compare_list")
-    list_objects = models.ManyToManyField("compareobject.CompareObject", null=True, default=None, related_name="compare_lists")
+    object_type = models.ForeignKey("compareobject.CompareObjectType", blank=True, related_name="compare_lists")
+    categories = models.ManyToManyField("compareobject.CompareCategory", blank=True, related_name="compare_lists")
+    features = models.ManyToManyField("comparelist.CompareFeature", blank=True, related_name="compare_list")
+    list_objects = models.ManyToManyField("compareobject.CompareObject", blank=True, related_name="compare_lists")
     created = models.DateTimeField(auto_now_add=True, db_index=True)
     modified = models.DateTimeField(auto_now=True, auto_now_add=True)
     private = models.BooleanField(default=True)

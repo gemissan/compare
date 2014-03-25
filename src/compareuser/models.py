@@ -15,17 +15,17 @@ class CompareUser(AbstractBaseUser):
     
     username = models.CharField(max_length=20, unique=True)
     email = models.CharField(max_length=100, unique=True)
-    first_name = models.CharField(max_length=50, blank=True, null=True, default=None)
-    last_name = models.CharField(max_length=100, blank=True, null=True, default=None)
+    first_name = models.CharField(max_length=50, null=True, blank=True, default=None)
+    last_name = models.CharField(max_length=100, null=True, blank=True, default=None)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now_add=True, auto_now=True)
-    friends = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True)
-    favourite_lists = models.ManyToManyField("comparelist.CompareList", null=True, related_name="favourited_users")
-    favourite_views = models.ManyToManyField("comparelist.CompareView", null=True, related_name="favourited_users")
-    allowed_object_types = models.ManyToManyField("compareobject.CompareObjectType")
+    friends = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
+    favourite_lists = models.ManyToManyField("comparelist.CompareList", blank=True, related_name="favourited_users")
+    favourite_views = models.ManyToManyField("comparelist.CompareView", blank=True, related_name="favourited_users")
+    allowed_object_types = models.ManyToManyField("compareobject.CompareObjectType", blank=True)
     
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]
