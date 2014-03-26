@@ -95,6 +95,13 @@ class CompareList(models.Model):
         
         return self.repository_owner is not None
     
+    def get_list_objects(self):
+        
+        if self.is_repository():
+            return self.list_objects.all()
+        else:
+            return self.list_objects.all()
+    
     def __unicode__(self):
         return self.name
 
