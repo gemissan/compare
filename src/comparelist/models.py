@@ -10,7 +10,7 @@ class CompareFeature(models.Model):
     """
     
     name = models.CharField(max_length=50)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
     
     objects = CompareFeatureManager()
     
