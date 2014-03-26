@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 
 from compareobject.models import Comparision
+from comparelist.managers import CompareFeatureManager
 
 
 class CompareFeature(models.Model):
@@ -11,8 +12,17 @@ class CompareFeature(models.Model):
     name = models.CharField(max_length=50)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
     
+    objects = CompareFeatureManager()
+    
     class Meta:
-        unique_together = ("name", "user",)
+        unique_together = ("user", "name",)
+        
+    def natural_key(self):
+        
+        if self.user:
+            return (self.user.id, self.name,)
+        else:
+            return (None, self.name,)
         
     def __unicode__(self):
         return self.name
@@ -117,10 +127,9 @@ class CompareView(models.Model):
     features = models.ManyToManyField("comparelist.CompareFeature", related_name="compare_views")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True, auto_now_add=True)
-    is_private = models.BooleanField(default=True)
+    private = models.BooleanField(default=True)
     
-    @property
-    def private(self):
+    def is_private(self):
         
-        return self.is_private and self.compare_list.private
+        return self.is_private or self.compare_list.private
         

@@ -2,8 +2,10 @@ import logging
 
 from django.db import models
 from django.db.models.signals import post_save, m2m_changed
-from django.contrib.auth.models import AbstractBaseUser, UserManager
+from django.contrib.auth.models import AbstractBaseUser
 from django.conf import settings
+
+from compareuser.managers import CompareUserManager
 
 
 logger = logging.getLogger(__name__)
@@ -30,7 +32,11 @@ class CompareUser(AbstractBaseUser):
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]
     
-    objects = UserManager()
+    objects = CompareUserManager()
+    
+    def natural_key(self):
+        
+        return (getattr(self, self.USERNAME_FIELD),)
     
     def get_full_name(self):
         
