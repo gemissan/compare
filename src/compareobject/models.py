@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.conf import settings
 from autoslug import AutoSlugField
 
-from compareobject.managers import CompareObjectTypeManager
+from compareobject.managers import CompareObjectTypeManager, CompareCategoryManager
 
 
 class CompareObjectType(models.Model):
@@ -27,7 +27,7 @@ class CompareObjectType(models.Model):
     
     def natural_key(self):
         
-        return (self.name,)
+        return (self.slug,)
     
     def __unicode__(self):
         return self.name
@@ -45,8 +45,14 @@ class CompareCategory(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, default=None)
     created = models.DateTimeField(auto_now_add=True)
     
+    objects = CompareCategoryManager()
+    
     class Meta:
         unique_together = ("name", "creator",)
+        
+    def natural_key(self):
+        
+        return (self.slug,)
     
     def get_user_categories(self, user):
         """

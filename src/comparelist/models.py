@@ -3,8 +3,8 @@ from django.conf import settings
 from autoslug import AutoSlugField
 
 from compareobject.models import Comparision
-from comparelist.managers import CompareFeatureManager
-from comparelist.utils import list_slug_populate_from, list_slugify
+from comparelist.managers import CompareFeatureManager, CompareListManager, CompareViewManager
+from comparelist.utils import feature_slug_populate_from, feature_slugify, list_slug_populate_from, list_slugify, view_slug_populate_from, view_slugify
 
 
 class CompareFeature(models.Model):
@@ -12,8 +12,8 @@ class CompareFeature(models.Model):
     """
     
     name = models.CharField(max_length=50)
-    slug = AutoSlugField(populate_from="name")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+    slug = AutoSlugField(populate_from=feature_slug_populate_from, slugify=feature_slugify)
     
     objects = CompareFeatureManager()
     
@@ -22,10 +22,7 @@ class CompareFeature(models.Model):
         
     def natural_key(self):
         
-        if self.user:
-            return (self.user.id, self.name,)
-        else:
-            return (None, self.name,)
+        return self.slug
         
     def __unicode__(self):
         return self.name
@@ -47,6 +44,8 @@ class CompareList(models.Model):
     modified = models.DateTimeField(auto_now=True, auto_now_add=True)
     private = models.BooleanField(default=True)
     
+    objects = CompareListManager()
+    
     class Meta:
         unique_together = [
             ["owner", "repository_owner", "name"],
@@ -57,6 +56,9 @@ class CompareList(models.Model):
             ["repository_owner", "object_type"],
         ]
         
+    def natural_key(self):
+        
+        return self.slug
         
     def get_owner(self):
         
@@ -129,6 +131,8 @@ class CompareView(models.Model):
     """
     
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="owned_views")
+    name = models.CharField(max_length=50)
+    slug = AutoSlugField(populate_from=view_slug_populate_from, slugify=view_slugify)
     compare_list = models.ForeignKey("comparelist.CompareList", related_name="compare_views")
     included_categories = models.ManyToManyField("compareobject.CompareCategory", related_name="included_views")
     excluded_categories = models.ManyToManyField("compareobject.CompareCategory", related_name="excluded_views")
@@ -136,6 +140,15 @@ class CompareView(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True, auto_now_add=True)
     private = models.BooleanField(default=True)
+    
+    objects = CompareViewManager()
+    
+    class Meta:
+        unique_together = ("owner", "name",)
+        
+    def natural_key(self):
+        
+        return self.slug
     
     def is_private(self):
         

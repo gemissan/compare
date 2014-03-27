@@ -38,7 +38,7 @@ class CompareUser(AbstractBaseUser):
     
     def natural_key(self):
         
-        return (getattr(self, self.USERNAME_FIELD),)
+        return (self.slug,)
     
     def get_full_name(self):
         
