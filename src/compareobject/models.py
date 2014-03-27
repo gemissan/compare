@@ -3,6 +3,7 @@ import logging
 from django.db import models
 from django.db.models import Q
 from django.conf import settings
+from autoslug import AutoSlugField
 
 from compareobject.managers import CompareObjectTypeManager
 
@@ -12,6 +13,7 @@ class CompareObjectType(models.Model):
     """
     
     name = models.CharField(max_length=30, unique=True)
+    slug = AutoSlugField(populate_from="name")
     features = models.ManyToManyField("comparelist.CompareFeature", blank=True)
     default = models.BooleanField(default=False)
     ordering = models.PositiveSmallIntegerField(db_index=True, default=0)
@@ -38,6 +40,7 @@ class CompareCategory(models.Model):
     default_category_type = None
     
     name = models.CharField(max_length=50)
+    slug = AutoSlugField(populate_from="name")
     category_type = models.CharField(max_length=50, db_index=True, null=True, blank=True, default=default_category_type)
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, default=None)
     created = models.DateTimeField(auto_now_add=True)
@@ -61,7 +64,7 @@ class CompareObject(models.Model):
     
     object_type = models.ForeignKey("compareobject.CompareObjectType", related_name="compare_objects")
     name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True)
+    slug = AutoSlugField(populate_from="name")
     categories = models.ManyToManyField("compareobject.CompareCategory", blank=True, related_name="compare_objects")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True, auto_now_add=True)

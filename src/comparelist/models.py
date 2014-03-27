@@ -1,8 +1,10 @@
 from django.db import models
 from django.conf import settings
+from autoslug import AutoSlugField
 
 from compareobject.models import Comparision
 from comparelist.managers import CompareFeatureManager
+from comparelist.utils import list_slug_populate_from, list_slugify
 
 
 class CompareFeature(models.Model):
@@ -10,6 +12,7 @@ class CompareFeature(models.Model):
     """
     
     name = models.CharField(max_length=50)
+    slug = AutoSlugField(populate_from="name")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
     
     objects = CompareFeatureManager()
@@ -35,6 +38,7 @@ class CompareList(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, default=None, related_name="owned_lists")
     repository_owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, default=None, related_name="repositories")
     name = models.CharField(max_length=255)
+    slug = AutoSlugField(populate_from=list_slug_populate_from, slugify=list_slugify)
     object_type = models.ForeignKey("compareobject.CompareObjectType", blank=True, related_name="compare_lists")
     categories = models.ManyToManyField("compareobject.CompareCategory", blank=True, related_name="compare_lists")
     features = models.ManyToManyField("comparelist.CompareFeature", blank=True, related_name="compare_list")
@@ -100,6 +104,10 @@ class CompareList(models.Model):
         worse_comparisions = self.get_worse_comparisions(compare_object)
         
         return better_comparisions | worse_comparisions
+    
+    def is_global_repository(self):
+        
+        return not self.owner and not self.repository_owner
     
     def is_repository(self):
         
