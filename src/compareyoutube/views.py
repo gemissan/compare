@@ -1,29 +1,29 @@
-from django.shortcuts import render, render_to_response
-
-from django.contrib.auth.decorators import login_required
-
-from compareobject.models import CompareObjectType
-from compareyoutube.forms import AddYoutubeObjectForm
+import logging
 
 
-OBJECT_TYPE = CompareObjectType.objects.get(name="Youtube")
+logger = logging.getLogger(__name__)
 
 
-@login_required
+def show_list(request, list_id):
+    
+    return
+
+
+def create_list(request):
+    
+    return
+
+
+def show_view(request):
+    
+    return
+
+
+def create_view(request):
+    
+    return
+
+
 def index(request):
     
-    user = request.user
-    repository = user.get_repository(OBJECT_TYPE).get_list_objects()
-    if request.method == "POST":
-        form = AddYoutubeObjectForm(request.POST)
-        if form.is_valid():
-            form.save()
-    else:
-        form = AddYoutubeObjectForm()
-    
-    return render(request, "youtube_index.html", {"form": form, "repository": repository})
-
-
-def list(request, username, list_name):
-    
-    return render_to_response("youtube_list.html")
+    return
