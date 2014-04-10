@@ -22,7 +22,7 @@ class CompareFeature(models.Model):
         
     def natural_key(self):
         
-        return self.slug
+        return (self.slug,)
         
     def __unicode__(self):
         return self.name
