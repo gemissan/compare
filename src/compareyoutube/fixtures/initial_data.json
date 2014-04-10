@@ -1,0 +1,40 @@
+[
+{
+    "pk": 1, 
+    "model": "comparelist.comparefeature", 
+    "fields": {
+        "slug": "overall", 
+        "name": "Overall", 
+        "user": null
+    }
+},
+{
+    "pk": null, 
+    "model": "comparelist.comparefeature", 
+    "fields": {
+        "slug": "music", 
+        "name": "Music", 
+        "user": null
+    }
+},
+{
+    "pk": null, 
+    "model": "compareobject.compareobjecttype", 
+    "fields": {
+        "name": "Youtube", 
+        "index_view": "youtube_index", 
+        "list_view": "youtube_list", 
+        "default": true, 
+        "ordering": 1, 
+        "slug": "youtube", 
+        "features": [
+            [
+                "overall"
+            ], 
+            [
+                "music"
+            ]
+        ]
+    }
+}
+]
