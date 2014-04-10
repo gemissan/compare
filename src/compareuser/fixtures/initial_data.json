@@ -1,0 +1,24 @@
+[
+{
+    "pk": 1, 
+    "model": "compareuser.compareuser", 
+    "fields": {
+        "username": "gswica", 
+        "first_name": null, 
+        "last_name": null, 
+        "favourite_views": [], 
+        "date_updated": "2014-04-10T19:26:03Z", 
+        "is_active": true, 
+        "slug": "gswica", 
+        "favourite_lists": [], 
+        "is_superuser": true, 
+        "is_staff": true, 
+        "last_login": "2014-04-10T19:26:03Z", 
+        "allowed_object_types": [], 
+        "password": "pbkdf2_sha256$12000$g8HZLeZLHoec$R9ka2A7uXdHaN0H+4gZt0Lkolg2xXB71H3wqqBuAElU=", 
+        "friends": [], 
+        "email": "gemissan@gmail.com", 
+        "date_joined": "2014-04-10T19:26:03Z"
+    }
+}
+]
