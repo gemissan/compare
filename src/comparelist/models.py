@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings
 from autoslug import AutoSlugField
 
+from django.core.urlresolvers import reverse
+
 from compareobject.models import Comparision
 from comparelist.managers import CompareFeatureManager, CompareListManager, CompareViewManager
 from comparelist.utils import feature_slug_populate_from, feature_slugify, list_slug_populate_from, list_slugify, view_slug_populate_from, view_slugify
@@ -58,7 +60,11 @@ class CompareList(models.Model):
         
     def natural_key(self):
         
-        return self.slug
+        return (self.slug,)
+    
+    def get_absolute_url(self):
+        
+        return reverse("show-list-view", args=[self.id])
         
     def get_owner(self):
         
@@ -148,7 +154,11 @@ class CompareView(models.Model):
         
     def natural_key(self):
         
-        return self.slug
+        return (self.slug,)
+    
+    def get_absolute_url(self):
+        
+        return reverse("show-listview-view", args=[self.id])
     
     def is_private(self):
         
