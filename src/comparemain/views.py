@@ -1,18 +1,29 @@
-from django.shortcuts import render_to_response
+import logging
 
 
-def index(request):
+logger = logging.getLogger(__name__)
+
+
+def login(request):
     
-    user = getattr(request, "user", None)
+    return
+
+
+def logout(request):
     
-    if user and user.is_authenticated():
-        return render_to_response("loggedin_index.html", {"user": user})
-    else:
-        return render_to_response("index.html")
+    return
+
+
+def new(request):
+    
+    return
 
 
 def about(request):
     
-    user = getattr(request, "user", None)
+    return
+
+
+def index(request):
     
-    return render_to_response("about.html", {"user": user})
+    return
