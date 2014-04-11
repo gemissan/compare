@@ -64,7 +64,7 @@ class CompareList(models.Model):
     
     def get_absolute_url(self):
         
-        return reverse("show-list-view", args=[self.id])
+        return reverse(self.object_type.list_view, args=[self.id])
         
     def get_owner(self):
         
