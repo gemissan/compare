@@ -5,7 +5,11 @@
     <title>{% block title_block %}{% endblock title_block %}</title>
   </head>
   <body>
+  {% block header_block %}
+  {% endblock header_block %}
   {% block body_block %}
   {% endblock body_block %}
+  {% block footer_block %}
+  {% endblock footer_block %}
   </body>
 </html>
