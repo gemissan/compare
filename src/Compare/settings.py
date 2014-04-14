@@ -1,5 +1,4 @@
 import os
-from os import path
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -30,7 +29,7 @@ AUTH_USER_MODEL = 'compareuser.CompareUser'
 AUTHENTICATION_BACKENDS = ('compareuser.backends.DummyAuthenticationBackend',
                            'django.contrib.auth.backends.ModelBackend')
 
-LOGIN_URL = "login_user_view"
+LOGIN_URL = "login-user-view"
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -72,7 +71,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = PROJECT_PATH + '/static/'
+STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -80,9 +79,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+
 )
 
 # List of finder classes that know how to find static files in
@@ -145,7 +142,7 @@ INSTALLED_APPS = (
 
 LOGGING_ROOT = '/var/log/django/compare'
 
-if not path.isdir(LOGGING_ROOT):
+if not os.path.isdir(LOGGING_ROOT):
     os.makedirs(LOGGING_ROOT)
 
 # A sample logging configuration. The only tangible logging
@@ -187,7 +184,7 @@ LOGGING = {
         'root_rotating_file': {
             'level': 'NOTSET',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': path.join(LOGGING_ROOT, 'main.log'),
+            'filename': os.path.join(LOGGING_ROOT, 'main.log'),
             'mode': 'a',
             'maxBytes': 1024 * 1024,
             'backupCount': 10,
@@ -196,7 +193,7 @@ LOGGING = {
         'error_rotating_file': {
             'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': path.join(LOGGING_ROOT, 'error.log'),
+            'filename': os.path.join(LOGGING_ROOT, 'error.log'),
             'maxBytes': 1024 * 1024,
             'backupCount': 0,
             'formatter': 'verbose'
@@ -204,7 +201,7 @@ LOGGING = {
         'request_rotating_file': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': path.join(LOGGING_ROOT, 'request.log'),
+            'filename': os.path.join(LOGGING_ROOT, 'request.log'),
             'maxBytes': 5 * 1024 * 1024,
             'backupCount': 5,
             'formatter': 'simple'
@@ -212,7 +209,7 @@ LOGGING = {
         'signals_rotating_file': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': path.join(LOGGING_ROOT, 'signals.log'),
+            'filename': os.path.join(LOGGING_ROOT, 'signals.log'),
             'maxBytes': 1024 * 1024,
             'backupCount': 1,
             'formatter': 'simple'
@@ -247,7 +244,7 @@ log_modules = ('compareutils', 'compareuser', 'comparelist')
 
 for log_module in log_modules:
     handler = log_module + '_rotating_file_handler'
-    filename = path.join(LOGGING_ROOT, log_module + '.log')
+    filename = os.path.join(LOGGING_ROOT, log_module + '.log')
     LOGGING['handlers'][handler] = {
         'level': 'NOTSET',
         'class': 'logging.handlers.RotatingFileHandler',
