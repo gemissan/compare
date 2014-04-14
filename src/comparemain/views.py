@@ -1,4 +1,5 @@
 import logging
+from django.shortcuts import render_to_response
 
 
 logger = logging.getLogger(__name__)
@@ -26,4 +27,4 @@ def about(request):
 
 def index(request):
     
-    return
+    return render_to_response("index.html")
