@@ -7,8 +7,11 @@
 {% block header_block %}
   {{ block.super }}
   <nav id="main-menu-id" class="main-menu">
-  {% block main_menu_block %}
-  {% endblock main_menu_block %}
+    <ul>
+      <li><a href="{% url 'show-repository-view' %}">Repository</a></li>
+      <li><a href="{% url 'show-all-lists-view' %}">Lists</a></li>
+      <li><a href="{% url 'show-all-views-view' %}">Views</a></li>
+    </ul>
   </nav>
 {% endblock header_block %}
 
