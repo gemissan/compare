@@ -9,12 +9,12 @@ def all_views(request):
     return
 
 
-def show(request, list_id):
+def show_view(request, view_id):
     
     return
 
 
-def create(request):
+def create_view(request):
     
     return
 

@@ -1,12 +1,14 @@
 import logging
 
+from django.shortcuts import render_to_response
+
 
 logger = logging.getLogger(__name__)
 
 
 def repository(request):
     
-    return
+    return render_to_response("repository.html")
 
 
 def all_lists(request):
@@ -14,12 +16,12 @@ def all_lists(request):
     return
 
 
-def show(request, list_id):
+def show_list(request, list_id):
     
     return
 
 
-def create(request):
+def create_list(request):
     
     return
 

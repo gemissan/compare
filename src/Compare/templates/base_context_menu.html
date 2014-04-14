@@ -1,0 +1,20 @@
+{% extends "base_menu.html" %}
+
+{% load staticfiles %}
+
+{% block css_block %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/context-menu.css" %}">
+{% endblock css_block %}
+
+{% block content_block %}
+  <div id="context-menu-id" class="context-menu">
+  {% block context_menu_block %}
+  {% endblock context_menu_block %}
+  </div>
+  <div id="main-content-id" class="main-content">
+  {% block main_content_block %}
+  {% endblock main_content_block %}
+  </div>
+  <div class="clear"></div>
+{% endblock content_block %}

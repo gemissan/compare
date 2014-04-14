@@ -1,0 +1,20 @@
+.context-menu {
+  float: left;
+  
+  min-height: 400px;
+  height: 100%;
+  
+  border-right: 2px double;
+}
+
+.main-content {
+  float: left;
+}
+
+#context-menu-id {
+  width: 240px;
+}
+
+#main-content-id {
+  margin-left: 240px;
+}
