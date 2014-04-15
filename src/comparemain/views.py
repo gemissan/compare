@@ -1,5 +1,7 @@
 import logging
+
 from django.shortcuts import render_to_response
+from django.views.generic import TemplateView
 
 
 logger = logging.getLogger(__name__)
@@ -20,9 +22,9 @@ def register(request):
     return render_to_response("register.html")
 
 
-def about(request):
+class AboutView(TemplateView):
     
-    return render_to_response("about.html")
+    template_name = "about.html"
 
 
 def index(request):
