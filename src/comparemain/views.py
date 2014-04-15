@@ -14,7 +14,7 @@ def login(request):
 
 def logout(request):
     
-    return
+    return login(request)
 
 
 def register(request):
@@ -37,4 +37,4 @@ def profile(request):
 
 def show_user(request, user_slug):
     
-    return
+    return profile(request)
