@@ -34,5 +34,5 @@ class LoginForm(forms.ModelForm):
         
     class Media:
         css = {
-            "all": ("css/forms.css",)
+            "all": ("css/forms.css", "css/login.css",)
         }

@@ -24,7 +24,7 @@ class LoginView(View):
         if form.is_valid():
             return index(request)
         
-        return render_to_response("login.html")
+        return render_to_response("login.html", {"form": form})
 
 
 def logout(request):

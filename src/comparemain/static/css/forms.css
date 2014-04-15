@@ -1,7 +1,19 @@
-.login_input {
-	width: 120px;
+.form-button {
+  width: 80px;
 }
 
-.password_input {
-	background-color: yellow;
+.form-button:HOVER {
+  background-color: yellow;
+}
+
+.login_input {
+	width: 120px;
+	
+	padding: 3px;
+	
+	border: 1px solid black;
+}
+
+.login_input:HOVER {
+  background-color: yellow;
 }
