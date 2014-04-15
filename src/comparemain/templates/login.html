@@ -2,6 +2,11 @@
 
 {% block title_block %}Compare Login{% endblock title_block %}
 
+{% block css_block %}
+  {{ block.super }}
+  {{ form.media }}
+{% endblock css_block %}
+
 {% block content_block %}
-{{ form.as_p }}
+{{ form.as_ul }}
 {% endblock content_block %}
