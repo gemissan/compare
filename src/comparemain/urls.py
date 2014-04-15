@@ -1,10 +1,10 @@
 from django.conf.urls import patterns, url
 
-from comparemain.views import AboutView
+from comparemain.views import LoginView, AboutView
 
 
 urlpatterns = patterns("comparemain.views",
-    url(r"login$", "login", name="login-user-view"),
+    url(r"login$", LoginView.as_view(), name="login-user-view"),
     url(r"logout$", "logout", name="logout-user-view"),
     url(r"register$", "register", name="register-new-user-view"),
     url(r"profile$", "profile", name="user-profile-view"),

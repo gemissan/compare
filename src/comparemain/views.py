@@ -1,19 +1,28 @@
 import logging
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render, render_to_response
 from django.views.generic import View, TemplateView
+
+from comparemain.forms import LoginForm
 
 
 logger = logging.getLogger(__name__)
 
 
-def LoginView(View):
+class LoginView(View):
+    form_class = LoginForm
+    template = "login.html"
     
     def get(self, request, *args, **kwargs):
         
-        return render_to_response("login.html")
+        form = self.form_class()
+        return render(request, self.template, {"form": form})
 
     def post(self, request, *args, **kwargs):
+        
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            return index(request)
         
         return render_to_response("login.html")
 
