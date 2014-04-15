@@ -23,10 +23,16 @@ class PasswordField(forms.PasswordInput):
 
 
 class LoginForm(forms.ModelForm):
+    
     class Meta:
         model = User
         fields = ["email", "password"]
         widgets = {
             "email": EmailField(attrs={"class": "login_input"}),
             "password": PasswordField(attrs={"class": "login_input password_input"})
+        }
+        
+    class Media:
+        css = {
+            "all": ("css/forms.css",)
         }
