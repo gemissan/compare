@@ -1,20 +1,26 @@
 import logging
 
 from django.shortcuts import render_to_response
-from django.views.generic import TemplateView
+from django.views.generic import View, TemplateView
 
 
 logger = logging.getLogger(__name__)
 
 
-def login(request):
+def LoginView(View):
     
-    return render_to_response("login.html")
+    def get(self, request, *args, **kwargs):
+        
+        return render_to_response("login.html")
+
+    def post(self, request, *args, **kwargs):
+        
+        return render_to_response("login.html")
 
 
 def logout(request):
     
-    return login(request)
+    return LoginView.as_view()(request)
 
 
 def register(request):
