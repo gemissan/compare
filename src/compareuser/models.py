@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models.signals import post_save, m2m_changed
 from django.contrib.auth.models import AbstractBaseUser
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from autoslug import AutoSlugField
 
 from compareuser.managers import CompareUserManager
@@ -39,6 +40,10 @@ class CompareUser(AbstractBaseUser):
     def natural_key(self):
         
         return (self.slug,)
+    
+    def get_absolute_url(self):
+        
+        return reverse("show-user-view", args=[self.slug])
     
     def get_full_name(self):
         

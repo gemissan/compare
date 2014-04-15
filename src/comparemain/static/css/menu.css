@@ -1,0 +1,25 @@
+#login-bar-id {
+  position:fixed;
+  top: 0;
+  right: 0;
+}
+
+.login-bar {
+  margin: 0;
+  padding: 0;
+}
+
+.main-menu {
+  height: 1.5em;
+  
+  background-color: #0000CC;
+}
+
+.main-menu a {
+  display: block;
+  
+  width: 120px;
+  
+  font-family: Georgia, serif;
+  color: white;
+}

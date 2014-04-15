@@ -1,0 +1,30 @@
+{% load staticfiles %}
+
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>{% block title_block %}Compare{% endblock title_block %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}">
+    {% block css_block %}{% endblock css_block %}
+  </head>
+  <body>
+  {% block body_block %}
+    <div id="header-id" class="header">
+    {% block header_block %}
+      <div class="header-banner">
+        <a href="{% url 'index-view' %}">COMPARE</a>
+      </div>
+    {% endblock header_block %}
+    </div>
+    <div id="content-id" class="content">
+    {% block content_block %}
+    {% endblock content_block %}
+    </div>
+    <div id="footer-id" class="footer"
+    {% block footer_block %}
+    {% endblock footer_block %}
+    </div>
+  {% endblock body_block %}
+  </body>
+</html>
