@@ -1,6 +1,6 @@
 from django.db import models
 
-from messages.managers import MessageManager
+from comparemessages.managers import MessageManager
 
 
 class Message(models.Model):

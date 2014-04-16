@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     'compareutils',
     'compareyoutube',
     'comparemain',
+    'comparemessages',
     
     'debug_toolbar'
 )
