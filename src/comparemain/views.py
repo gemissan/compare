@@ -2,11 +2,13 @@ import logging
 
 from django.shortcuts import render, render_to_response
 from django.views.generic import View, TemplateView
+from django.contrib.auth import authenticate, login
 
 from comparemain.forms import LoginForm
 
 
 logger = logging.getLogger(__name__)
+authentication_logger = logging.getLogger("authentication")
 
 
 class LoginView(View):
@@ -22,9 +24,14 @@ class LoginView(View):
         
         form = self.form_class(request.POST)
         if form.is_valid():
-            return index(request)
+            user = authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password"])
+            if user:
+                login(request, user)
+                return index(request)
+            else:
+                authentication_logger.warning("Invalid password for user '%s' from ip %s", form.cleaned_data["username"], request.META.get("REMOTE_ADDR"))
         
-        return render_to_response("login.html", {"form": form})
+        return render(request, self.template, {"form": form})
 
 
 def logout(request):
