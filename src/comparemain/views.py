@@ -5,7 +5,7 @@ from django.views.generic import View, TemplateView
 from django.contrib.auth import authenticate, login, logout
 
 from comparemain.forms import LoginForm
-from comparemain.decorators import redirect_to_index
+from comparemain.decorators import redirect_to, redirect_to_index
 
 
 logger = logging.getLogger(__name__)
@@ -28,7 +28,7 @@ class LoginView(View):
             user = authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password"])
             if user:
                 login(request, user)
-                return index(request)
+                return redirect("index-view")
             else:
                 authentication_logger.warning("Invalid password for user '%s' from ip %s", form.cleaned_data["username"], request.META.get("REMOTE_ADDR"))
         
@@ -36,12 +36,12 @@ class LoginView(View):
 
 
 @redirect_to_index
-def logout(request):
+def logout_view(request):
     
     logout(request)
 
 
-def register(request):
+def register_view(request):
     
     return render_to_response("register.html")
 
@@ -51,14 +51,17 @@ class AboutView(TemplateView):
     template_name = "about.html"
 
 
-def index(request):
+def index_view(request):
     
     return render_to_response("index.html")
 
-def profile(request):
+
+def profile_view(request):
     
     return render_to_response("profile.html")
 
-def show_user(request, user_slug):
+
+@redirect_to("user-profile-view")
+def show_user_view(request, user_slug):
     
-    return profile(request)
+    pass
