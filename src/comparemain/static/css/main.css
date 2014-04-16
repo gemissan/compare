@@ -15,6 +15,7 @@ html, body {
   margin: 0;
   padding: 0;
   
+  border-bottom: 5px groove yellow;
   background-color: #0066FF;
 }
 
@@ -33,6 +34,7 @@ html, body {
   margin: 0;
   padding: 0;
 	
+  border-top: 5px groove yellow;
   background-color: #0066FF;
 }
 
