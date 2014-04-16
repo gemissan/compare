@@ -17,6 +17,7 @@ class Message(models.Model):
     
     name = models.CharField(max_length=20, primary_key=True)
     type = models.CharField(max_length=2, choices=TYPE_CHOICES)
+    fades = models.BooleanField(default=False)
     message = models.CharField(max_length=255)
     
     class Meta:
