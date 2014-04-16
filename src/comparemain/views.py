@@ -1,10 +1,11 @@
 import logging
 
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.views.generic import View, TemplateView
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from comparemain.forms import LoginForm
+from comparemain.decorators import redirect_to_index
 
 
 logger = logging.getLogger(__name__)
@@ -34,9 +35,10 @@ class LoginView(View):
         return render(request, self.template, {"form": form})
 
 
+@redirect_to_index
 def logout(request):
     
-    return LoginView.as_view()(request)
+    logout(request)
 
 
 def register(request):
