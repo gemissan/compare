@@ -12,6 +12,6 @@ class ShowMessagesMiddleware:
     
     def process_response(self, request, response):
         
-        response.content = response.content("generic message", "special message")
+        response.content = response.content.replace("generic message", "special message")
         
         return response
