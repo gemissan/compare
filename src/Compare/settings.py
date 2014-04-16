@@ -216,6 +216,14 @@ LOGGING = {
             'backupCount': 1,
             'formatter': 'simple'
         },
+        'authentication_rotating_file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOGGING_ROOT, 'authentication.log'),
+            'maxBytes': 1024 * 1024,
+            'backupCount': 1,
+            'formatter': 'simple'
+        },
         'mail_admins': {
             'level': 'CRITICAL',
             'filters': ['require_debug_false'],
@@ -239,6 +247,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
+        'authentication': {
+            'handlers': ['authentication_rotating_file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        }
     }
 }
 
