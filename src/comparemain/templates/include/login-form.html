@@ -1,0 +1,16 @@
+<form id="login-form-id" class="login-form" method="POST" action="">
+  {% csrf_token %}
+  <ul>
+  {% for field in form %}
+    {% if field.is_hidden %}
+      {{ field }}
+    {% else %}
+      <li {{ field.attrs }}>
+        {{ field.label_tag }}
+        {{ field }}
+      </li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+  <input type="submit" id="login-form-submit-button-id" class="form-button" value="Login"></input>
+</form>

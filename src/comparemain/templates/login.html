@@ -8,11 +8,8 @@
 {% endblock css_block %}
 
 {% block content_block %}
+{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
 <div id="login-form-container-id" class="login-form-container">
-  <form id="login-form-id" class="login-form" method="POST" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" id="login-form-submit-button-id" class="form-button" value="Login"></input>
-  </form>
+  {% include "include/login-form.html" %}
 </div>
 {% endblock content_block %}

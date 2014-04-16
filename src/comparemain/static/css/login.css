@@ -17,3 +17,10 @@
 #login-form-submit-button-id {
   margin: 20px 25px;
 }
+
+.login-form  ul {
+  list-style-type: none;
+  
+  margin: 0;
+  padding: 0;
+}
