@@ -6,8 +6,11 @@ from comparemessages.managers import MessageManager
 class Message(models.Model):
     
     INFO = "IF"
+    DEBUG = "DG"
     WARNING = "WR"
     ERROR = "ER"
+    
+    DEBUG_TYPES = ("DG",)
     
     TYPE_CHOICES = (
         (INFO, "Info"),
