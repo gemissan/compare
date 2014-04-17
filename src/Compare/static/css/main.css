@@ -15,11 +15,13 @@ html, body {
   margin: 0;
   padding: 0;
   
+  border-bottom: 5px groove yellow;
   background-color: #0066FF;
 }
 
 .content {
   width: 100%;
+  min-height: 400px;
 	
   margin: 5em 0 0;
   padding: 0;
@@ -32,10 +34,26 @@ html, body {
   margin: 0;
   padding: 0;
 	
+  border-top: 5px groove yellow;
   background-color: #0066FF;
 }
 
 .header-banner {
   width: 100%;
-  height: 3em;
+  height: 3.5em;
+}
+
+.horizontal-list ul {
+  list-style-type: none;
+  
+  margin: 0;
+  padding: 0;
+}
+
+.horizontal-list li {
+  display: inline-block;
+}
+
+.clear {
+  clear: both;
 }

@@ -31,7 +31,8 @@ class LoginView(View):
             user = authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password"])
             if user:
                 login(request, user)
-                return redirect("index-view")
+                # return redirect("index-view")
+                messages.append("logged in")
             else:
                 messages.append("incorrect login data")
                 authentication_logger.warning("Invalid password for user '%s' from ip %s", form.cleaned_data["username"], request.META.get("REMOTE_ADDR"))
