@@ -218,6 +218,14 @@ LOGGING = {
             'backupCount': 1,
             'formatter': 'simple'
         },
+        'middleware_rotating_file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOGGING_ROOT, 'middleware.log'),
+            'maxBytes': 1024 * 1024,
+            'backupCount': 1,
+            'formatter': 'simple'
+        },
         'authentication_rotating_file': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
@@ -248,6 +256,11 @@ LOGGING = {
             'handlers': ['signals_rotating_file'],
             'level': 'DEBUG',
             'propagate': False,
+        },
+        'middleware': {
+            'handlers': ['middleware_rotating_file'],
+            'level': 'DEBUG',
+            'propagate': True,
         },
         'authentication': {
             'handlers': ['authentication_rotating_file'],
