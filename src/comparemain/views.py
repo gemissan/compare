@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from comparemain.forms import LoginForm
 from comparemain.decorators import redirect_to, redirect_to_index
+from comparemessages import get_messages
 
 
 logger = logging.getLogger(__name__)
@@ -23,6 +24,8 @@ class LoginView(View):
 
     def post(self, request, *args, **kwargs):
         
+        messages = []
+        
         form = self.form_class(request.POST)
         if form.is_valid():
             user = authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password"])
@@ -30,9 +33,10 @@ class LoginView(View):
                 login(request, user)
                 return redirect("index-view")
             else:
+                messages.append("incorrect login data")
                 authentication_logger.warning("Invalid password for user '%s' from ip %s", form.cleaned_data["username"], request.META.get("REMOTE_ADDR"))
         
-        return render(request, self.template, {"form": form})
+        return render(request, self.template, {"form": form, "compare_messages": get_messages(messages)})
 
 
 @redirect_to_index
