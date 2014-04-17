@@ -29,13 +29,13 @@ class LoginView(View):
             user = authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password"])
             if user:
                 login(request, user)
-                request.messages.add("logged in")
+                request.compare_messages.add("logged in")
                 return redirect("index-view")
             else:
-                request.messages.add("incorrect login data")
+                request.compare_messages.add("incorrect login data")
                 authentication_logger.warning("Invalid password for user '%s' from ip %s", form.cleaned_data["username"], request.META.get("REMOTE_ADDR"))
         
-        return render(request, self.template, {"form": form})
+        return render(request, self.template, {"form": form, "compare_messages": request.compare_messages})
 
 
 @redirect_to_index

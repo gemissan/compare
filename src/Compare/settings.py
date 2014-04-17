@@ -31,6 +31,8 @@ AUTHENTICATION_BACKENDS = ('compareuser.backends.DummyAuthenticationBackend',
 
 LOGIN_URL = "login-user-view"
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
@@ -270,7 +272,7 @@ LOGGING = {
     }
 }
 
-log_modules = ('compareutils', 'compareuser', 'comparelist')
+log_modules = ('compareutils', 'compareuser', 'comparelist', 'comparemessages', 'comparemain')
 
 for log_module in log_modules:
     handler = log_module + '_rotating_file_handler'

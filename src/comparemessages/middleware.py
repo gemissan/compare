@@ -3,11 +3,11 @@ import logging
 from comparemessages import SessionMessageDict
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("middleware")
 
 
 class CompareMessageMiddleware():
     
-    def process_request(self, request):
+    def process_view(self, request, *args, **kwargs):
         
-        setattr(request, "messages", SessionMessageDict(request.session))
+        setattr(request, "compare_messages", SessionMessageDict(request.session))
