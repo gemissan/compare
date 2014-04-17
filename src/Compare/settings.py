@@ -105,6 +105,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'comparemessages.middleware.CompareMessageMiddleware',
 )
 
 ROOT_URLCONF = 'Compare.urls'

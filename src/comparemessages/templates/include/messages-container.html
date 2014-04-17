@@ -1,9 +1,9 @@
-{% if compare_messages %}
+{% if messages %}
 <div class="compare-messages">
-  {% for message_tuple in compare_messages %}
-  <div class="message {{ message_tuple.0 }}">
-    {% for message in message_tuple.1 %}
-    <p>{{ message.message }}</p>
+  {% for message_type in messages %}
+  <div class="message {{ message_type }}">
+    {% for message in messages.message_type %}
+      <p>{{ message.message }}</p>
     {% endfor %}
   </div>
   {% endfor %}
