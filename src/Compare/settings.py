@@ -271,7 +271,7 @@ LOGGING = {
     }
 }
 
-log_modules = ('compareutils', 'compareuser', 'comparelist', 'comparemessages', 'comparemain')
+log_modules = ('compareutils', 'compareuser', 'comparelist', 'comparemain')
 
 for log_module in log_modules:
     handler = log_module + '_rotating_file_handler'
