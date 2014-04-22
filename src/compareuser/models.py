@@ -67,10 +67,9 @@ class CompareUser(AbstractBaseUser):
     def get_repository(self, object_type):
         
         if object_type in self.allowed_object_types.all():
-            try:
-                return self.repositories.get(object_type=object_type)
-            except:
-                pass
+            return self.repositories.get(object_type=object_type)
+        else:
+            raise Exception("Repository is not allowed")
             
         return None
     

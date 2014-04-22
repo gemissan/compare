@@ -1,0 +1,9 @@
+l{% load list_filters %}
+
+{% if user %}
+<ul>
+  {% for repository_type in user.allowed_object_types %}
+    <li><a href="">{{ repository_type.name }}</a><li>
+  {% endfor %}
+</ul>
+{% endif %}
