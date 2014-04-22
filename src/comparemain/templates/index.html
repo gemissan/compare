@@ -1,6 +1,12 @@
 {% extends 'base_menu.html' %}
 
+{% load staticfiles %}
+
 {% block title_block %}Compare Index{% endblock title_block %}
+
+{% block css_block %}
+  {{ block.super }}
+{% endblock css_block %}
 
 {% block content_block %}
 INDEX

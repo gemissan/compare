@@ -1,9 +1,12 @@
 from django.conf.urls import patterns, url
 
+from django.shortcuts import render
+
 from comparemain.views import LoginView, AboutView
 
 
 urlpatterns = patterns("comparemain.views",
+    url(r"base$", lambda request: render(request, "base_context_menu.html")),
     url(r"login$", LoginView.as_view(), name="login-user-view"),
     url(r"logout$", "logout_view", name="logout-user-view"),
     url(r"register$", "register_view", name="register-new-user-view"),

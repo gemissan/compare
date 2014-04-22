@@ -101,9 +101,9 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'compareutils.middleware.DisableDebugSiteMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -111,7 +111,6 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'Compare.urls'
 
-# Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'Compare.wsgi.application'
 
 TEMPLATE_DIRS = (
@@ -119,8 +118,9 @@ TEMPLATE_DIRS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
     'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
     )
 
 INSTALLED_APPS = (
@@ -141,8 +141,12 @@ INSTALLED_APPS = (
     'compareyoutube',
     'comparemain',
     
-    'debug_toolbar'
+    'debug_toolbar',
 )
+
+CONFIG_DEFAULTS = {
+    'HIDE_IN_STACKTRACES': None
+}
 
 LOGGING_ROOT = '/var/log/django/compare'
 
@@ -270,7 +274,7 @@ LOGGING = {
     }
 }
 
-log_modules = ('compareutils', 'compareuser', 'comparelist', 'comparemain')
+log_modules = ('compareutils', 'compareuser', 'comparelist', 'comparemain', 'debug_toolbar')
 
 for log_module in log_modules:
     handler = log_module + '_rotating_file_handler'
