@@ -1,6 +1,6 @@
 import logging
 
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib.auth import authenticate, login, logout
 
@@ -58,7 +58,7 @@ def logout_view(request):
 
 def register_view(request):
     
-    return render_to_response("register.html")
+    return render(request, "register.html")
 
 
 class AboutView(TemplateView):
@@ -68,12 +68,12 @@ class AboutView(TemplateView):
 
 def index_view(request):
     
-    return render_to_response("index.html")
+    return render(request, "index.html")
 
 
 def profile_view(request):
     
-    return render_to_response("profile.html")
+    return render(request, "profile.html")
 
 
 @redirect_to("user-profile-view")

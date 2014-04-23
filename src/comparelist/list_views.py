@@ -1,6 +1,6 @@
 import logging
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 
 
 logger = logging.getLogger(__name__)
@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 def repository(request):
     
-    return render_to_response("repository.html")
+    return render(request, "repository.html")
 
 
 def all_lists(request):
