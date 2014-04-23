@@ -2,7 +2,7 @@
 
 {% if user %}
 <ul>
-  {% for repository_type in user.allowed_object_types %}
+  {% for repository_type in user.allowed_object_types.all %}
     <li><a href="{{ user|repository_url:repository_type }}">{{ repository_type.name }}</a></li>
   {% endfor %}
 </ul>
