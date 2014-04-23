@@ -19,7 +19,7 @@ def list_slug_populate_from(instance):
         return (instance.name,)
     else:
         if instance.is_repository():
-            user_slug = instance.repository_owner
+            user_slug = instance.repository_owner.slug
         else:
             user_slug = instance.owner.slug
     
