@@ -65,11 +65,16 @@ class CompareUser(AbstractBaseUser):
         return True
     
     def get_repository(self, object_type):
+        """
+        Get user repository list with type <object_type>.
+        Returns None if repository with that type does not exist.
+        Returns False if repository exists but is not accessible.
+        """
         
         if object_type in self.allowed_object_types.all():
             return self.repositories.get(object_type=object_type)
         else:
-            raise Exception("Repository is not allowed")
+            return False
             
         return None
     
@@ -89,7 +94,8 @@ def compare_user_create_user_repository(sender, instance, action, reverse, pk_se
         from comparelist.models import CompareList
         for pk in pk_set:
             object_type = CompareObjectType.objects.get(pk=pk)
-            if not instance.get_repository(object_type):
+            # TODO: This works for now but get_repository has to be changed
+            if instance.get_repository(object_type) is None:
                 try:
                     repository_list = CompareList.objects.get(repository_owner=instance, object_type=object_type)
                 except CompareList.DoesNotExist:
@@ -97,6 +103,7 @@ def compare_user_create_user_repository(sender, instance, action, reverse, pk_se
                         name="%s_repository" % (object_type.name),
                         object_type=object_type
                     )
+                    repository_list.save()
                     
                 instance.repositories.add(repository_list)
                 

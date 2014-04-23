@@ -6,5 +6,5 @@ urlpatterns = patterns("compareyoutube.views",
     url(r"list/create$", "create_list", name="create-youtube-list-view"),
     url(r"view/(?P<view_id>\d+)$", "show_view", name="show-youtube-listview-view"),
     url(r"view/create$", "create_view", name="create-youtube-listview-view"),
-    url(r"", "index", name="youtube-index-view")
+    url(r"", "index", name="show-youtube-index-view")
 )
