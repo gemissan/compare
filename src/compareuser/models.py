@@ -37,6 +37,16 @@ class CompareUser(AbstractBaseUser):
     
     objects = CompareUserManager()
     
+    @property
+    def main_repository(self):
+        
+        from comparelist.models import CompareList
+        try:
+            return self.repositories.get(object_type=None)
+        except CompareList.DoesNotExist:
+            logger.critical("User %s does not have main repository", self)
+            raise
+    
     def natural_key(self):
         
         return (self.slug,)
@@ -72,11 +82,13 @@ class CompareUser(AbstractBaseUser):
         """
         
         if object_type in self.allowed_object_types.all():
-            return self.repositories.get(object_type=object_type)
+            from comparelist.models import CompareList
+            try:
+                return self.repositories.get(object_type=object_type)
+            except CompareList.DoesNotExist:
+                return None
         else:
             return False
-            
-        return None
     
     def __unicode__(self):
         return "User[pk=%s, name=%s]" % (self.pk, getattr(self, self.USERNAME_FIELD, None),)
@@ -88,6 +100,8 @@ signals_logger.info("Logging signals from %s", __name__)
 
 
 def compare_user_create_user_repository(sender, instance, action, reverse, pk_set, **kwargs):
+    """
+    """
     
     if not reverse and action == "post_add":
         from compareobject.models import CompareObjectType
@@ -99,15 +113,23 @@ def compare_user_create_user_repository(sender, instance, action, reverse, pk_se
                 try:
                     repository_list = CompareList.objects.get(repository_owner=instance, object_type=object_type)
                 except CompareList.DoesNotExist:
-                    repository_list = CompareList.objects.create(
-                        name="%s_repository" % (object_type.name),
-                        object_type=object_type
-                    )
+                    repository_list = CompareList.objects.create(name="%s_repository" % (object_type.name), object_type=object_type)
                     repository_list.save()
                     
                 instance.repositories.add(repository_list)
                 
                 signals_logger.debug("Added '%s' repository for %s", object_type, instance)
+
+
+def compare_user_create_user_main_repository(sender, instance, raw, **kwargs):
+    """
+    Receiver for post_save CompareUser signal.
+    Adds user main repository to database.
+    """
+    
+    if not raw:
+        from comparelist.models import CompareList
+        CompareList.objects.create(repository_owner=instance, name="repository_%s" % (instance.slug,), object_type=None)
 
 
 def compare_user_set_allowed_objct_types(sender, instance, raw, **kwargs):
@@ -126,4 +148,5 @@ def compare_user_set_allowed_objct_types(sender, instance, raw, **kwargs):
         
         
 m2m_changed.connect(compare_user_create_user_repository, sender=CompareUser.allowed_object_types.through)
+post_save.connect(compare_user_create_user_main_repository, sender=CompareUser)
 post_save.connect(compare_user_set_allowed_objct_types, sender=CompareUser)

@@ -38,7 +38,7 @@ class CompareList(models.Model):
     repository_owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, default=None, related_name="repositories")
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from=list_slug_populate_from, slugify=list_slugify)
-    object_type = models.ForeignKey("compareobject.CompareObjectType", blank=True, related_name="compare_lists")
+    object_type = models.ForeignKey("compareobject.CompareObjectType", null=True, blank=True, default=None, related_name="compare_lists")
     categories = models.ManyToManyField("compareobject.CompareCategory", blank=True, related_name="compare_lists")
     features = models.ManyToManyField("comparelist.CompareFeature", blank=True, related_name="compare_list")
     list_objects = models.ManyToManyField("compareobject.CompareObject", blank=True, related_name="compare_lists")
