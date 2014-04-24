@@ -1,0 +1,12 @@
+.add-new-youtube-object-container {
+  display: inline-block;
+  
+  width: 80%;
+  
+  padding: 0 20px;
+  margin: 0 30px;
+  
+  border-style: groove none;
+  border-width: 5px;
+  border-color: yellow;
+}

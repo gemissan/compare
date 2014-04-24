@@ -6,6 +6,12 @@
   background-color: yellow;
 }
 
+.url_input {
+	width: 400px;
+	
+	margin: 3px;
+}
+
 .login_input {
 	width: 120px;
 	

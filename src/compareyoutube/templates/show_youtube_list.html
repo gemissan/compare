@@ -2,6 +2,13 @@
 
 {% block title_block %}Youtube repository{% endblock title_block %}
 
+{% block css_block %}
+  {{ block.super }}
+  {{ form.media }}
+{% endblock css_block %}
+
 {% block main_content_block %}
-  {{ form.as_p }}
+<div id="add-new-youtube-object-container-id" class="add-new-youtube-object-container">
+  {% include 'include/add_new_object_form.html' %}
+</div>
 {% endblock main_content_block %}
