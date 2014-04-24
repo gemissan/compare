@@ -59,6 +59,15 @@ class CompareUserTestCase(test.TestCase):
         
         self.assertNotIn(object_type, user.allowed_object_types.all())
         
+    def test_new_user_has_main_repository(self):
+        
+        user = CompareUser.objects.create(
+            username="test",
+            email="test@test.com"
+        )
+        
+        self.assertTrue(user.main_repository)
+        
     def test_new_user_has_repositories(self):
         
         CompareObjectType.objects.create(name="test", default=True)
@@ -68,5 +77,5 @@ class CompareUserTestCase(test.TestCase):
             email="test@test.com"
         )
         
-        self.assertEqual(user.repositories.count(), 1)
+        self.assertTrue(user.repositories.get(object_type__name="test"))
         
