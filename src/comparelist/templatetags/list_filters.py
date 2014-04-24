@@ -1,10 +1,11 @@
 from django import template
+from django.core.urlresolvers import reverse
 
 
 register = template.Library()
 
 
 @register.filter
-def repository_url(user, repository_type):
+def repository_url(repository_type):
     
-    return user.get_repository(repository_type).get_absolute_url()
+    return reverse(repository_type.index_view)

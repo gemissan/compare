@@ -22,11 +22,11 @@
     "model": "compareobject.compareobjecttype", 
     "fields": {
         "name": "Youtube", 
-        "index_view": "youtube-index-view", 
+        "index_view": "show-youtube-index-view",
         "list_view": "show-youtube-list-view",
         "default": true, 
         "ordering": 1, 
-        "slug": "youtube", 
+        "slug": "youtube",
         "features": [
             [
                 "overall"

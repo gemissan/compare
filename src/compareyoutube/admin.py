@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from compareyoutube.models import YoutubeObject
+
+
+class YoutubeObjectAdmin(admin.ModelAdmin):
+    
+    pass
+
+
+admin.site.register(YoutubeObject, YoutubeObjectAdmin)

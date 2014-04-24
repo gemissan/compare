@@ -1,5 +1,6 @@
 from django.db.models.signals import pre_save
 
+from django.db import models
 from compareobject.models import CompareCategory, CompareObject, compare_category_set_category_type
 
 
@@ -9,6 +10,8 @@ class YoutubeArtistCategory(CompareCategory):
 
 
 class YoutubeObject(CompareObject):
+    
+    url = models.CharField(max_length=400)
     
     @property
     def artists(self):

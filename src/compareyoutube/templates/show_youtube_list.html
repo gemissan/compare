@@ -1,5 +1,7 @@
 {% extends 'repository.html' %}
 
+{% load youtubetags %}
+
 {% block title_block %}Youtube repository{% endblock title_block %}
 
 {% block css_block %}
@@ -10,5 +12,10 @@
 {% block main_content_block %}
 <div id="add-new-youtube-object-container-id" class="add-new-youtube-object-container">
   {% include 'include/add_new_object_form.html' %}
+</div>
+<div id="youtube-objects-container-id" class="list-container repository-container youtube-list-container youtube-repository-container">
+  {% for youtube_object in objects %}
+    {% show_youtube_element youtube_object %}
+  {% endfor %}
 </div>
 {% endblock main_content_block %}
