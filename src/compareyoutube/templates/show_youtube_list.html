@@ -1,5 +1,6 @@
 {% extends 'repository.html' %}
 
+{% load staticfiles %}
 {% load youtubetags %}
 
 {% block title_block %}Youtube repository{% endblock title_block %}
@@ -7,6 +8,7 @@
 {% block css_block %}
   {{ block.super }}
   {{ form.media }}
+  <link rel="stylesheet" type="text/css" media="all" href="{% static "css/list.css" %}">
 {% endblock css_block %}
 
 {% block main_content_block %}
