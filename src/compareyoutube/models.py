@@ -12,6 +12,7 @@ class YoutubeArtistCategory(CompareCategory):
 class YoutubeObject(CompareObject):
     
     url = models.CharField(max_length=400)
+    embed_url = models.CharField(max_length=400)
     
     @property
     def artists(self):
