@@ -131,8 +131,6 @@ INSTALLED_APPS = (
     'compareutils',
     'compareyoutube',
     'comparemain',
-    
-    'debug_toolbar',
 )
 
 LOGGING_ROOT = logging_settings.LOGGING_ROOT
