@@ -118,6 +118,10 @@ LOGGING = {
             'handlers': ['authentication_rotating_file'],
             'level': 'DEBUG',
             'propagate': False,
+        },
+        'ws': {
+            'handlers': ['root_rotating_file'],
+            'level': 'DEBUG',
         }
     }
 }
