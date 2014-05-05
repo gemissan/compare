@@ -16,7 +16,7 @@ youtube_type = CompareObjectType.objects.get(slug="youtube")
 
 class ShowListView(View):
     
-    add_object_form = AddObjectForm
+    add_object_form = lambda self: AddObjectForm(prefix="add-youtube")
     template = "show_youtube_list.html"
     
     def _get_objects(self, request):
