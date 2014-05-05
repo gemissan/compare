@@ -4,7 +4,7 @@ upstream compare_django {
  
 server {
 	listen 80;
-	server_name	compareit	compareit.com;
+	server_name	compareit.com compareit;
 	
 	location /media  {
         alias /home/naruto/workspace/compare/src/Compare/media;
