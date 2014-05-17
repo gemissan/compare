@@ -22,7 +22,7 @@ class DummyAuthenticationBackend(object):
         except User.DoesNotExist:
             logger.warning("User with creditentials %s doesn't exist" % (kwargs,))
         except Exception as e:
-            logger.error(unicode(e))
+            logger.error(str(e))
         else:
             logger.debug("%s authenticated as %s" % (name, authenticated_object,))
         
