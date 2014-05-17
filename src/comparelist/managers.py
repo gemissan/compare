@@ -14,9 +14,9 @@ class CompareListManager(models.Manager):
         
         return self.get(slug=slug)
     
-    def get_query_set(self):
+    def get_queryset(self):
         
-        return super(CompareListManager, self).get_query_set().prefetch_related("object_type")
+        return super(CompareListManager, self).get_queryset().prefetch_related("object_type")
 
 
 class CompareViewManager(models.Manager):

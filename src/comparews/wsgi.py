@@ -18,6 +18,7 @@ class CompareYoutubeWSHandler(tornado.websocket.WebSocketHandler):
     
     def open(self):
         logger.debug("socket opened")
+        print("socket opened")
       
     def on_message(self, message):
         logger.debug("message %s received")
@@ -25,6 +26,7 @@ class CompareYoutubeWSHandler(tornado.websocket.WebSocketHandler):
         
     def on_close(self):
         logger.debug("socket closed")
+        print("socket closed")
         
         
 urls = [

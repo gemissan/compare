@@ -1,47 +1,65 @@
 import "dart:html";
 import "dart:core";
+import "dart:collection";
 
-String serviceUrl = "localhost:8888";
-
-String getUrl(String endpoint) {
-  return serviceUrl + "/" + endpoint;
+class WebSocketClient {
+	final static serviceUrl = "ws://localhost:8888";
+	
+	String serviceEndpointUrl;
+	WebSocket ws;
+	
+	Map callbacks = new HashMap();
+	
+	WebSocketClient(String endpoint) {
+		this.serviceEndpointUrl = this.getUrl(endpoint);
+		this.initWebSocket();
+	}
+	
+	String getUrl(String endpoint) {
+  		return serviceUrl + "/" + endpoint;
+	}
+	
+	void initWebSocket() {
+		this.ws = new WebSocket(this.serviceEndpointUrl);
+		
+		this.ws.onMessage.listen((MessageEvent e) {
+    		this.callbacks.values.forEach((callback) {
+    			callback(e.data);
+    		});
+  		});
+	}
+	
+	void sendMessage(String action, var params) {
+		Message message = new Message();
+  		message.action = action;
+  		message.params = params;
+	}
+	
+	void addCallback(String action, var callback) {
+		//Change to set of callbacks
+		callbacks[action] = callback;
+	}
 }
 
-void sendMessage(String url, String action, var params, callback) {
+class YoutubeWebSocketClient {
 
-  Message message = new Message();
-  message.action = action;
-  message.params = params;
-}
+	var webSocketClient;
 
-dynamic setCheckedYoutubeObject(var outputContainer) {
-  
-  void f(Message message) {
-  }
-  
-  return f;
-}
-
-dynamic checkYoutubeObject(var inputElement, var outputContaier) {
-  
-  void f() {
-    sendMessage(
-  	  getUrl("youtube"),
-  	  "check",
-  	  inputElement.value,
-  	  setCheckedYoutubeObject(outputContaier));
- }
- 
- return f;
+	YoutubeWebSocketClient() {
+		this.webSocketClient = new WebSocketClient("youtube");
+		
+		var inputElement = query("#id_add-youtube-url");
+		
+		// On inputElement change send a 'get_youtube' message
+		
+  		var outputElement = query("#id_add-youtube-form");
+  		
+  		this.webSocketClient.addCallback("get_youtube", (data) {
+  			print(data);
+  		});
+	}
 }
 
 void main() {
-  var inputElement = query("#id_add-youtube-url");
-  var outputElement = query("#id_add-youtube-form");
-  
-  var addYoutubeHandle = checkYoutubeObject(inputElement, outputElement);
-  
-  inputElement
-    ..onChange.listen(addYoutubeHandle)
-    ..onPaste.listen(addYoutubeHandle);
+  var ytws = new YoutubeWebSocketClient();
 }
